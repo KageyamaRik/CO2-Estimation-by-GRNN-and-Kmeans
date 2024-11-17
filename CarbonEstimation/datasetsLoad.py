@@ -11,11 +11,11 @@ XCO2 = options["GEOS"]
 
 dataPath = {"MappingXCO2": f"H:\\XCO2\\{XCO2}\\",
             "MOD17A3HGFv061": "H:\\NPP\\MOD17A3HGFv061\\npy\\",
-            "LandScan_global": "H:\\Population\\LandScan_global\\npy_sum\\",  # 改用sum
-            "VIIRS_annual_v21": "H:\\Nighttime Light\\VIIRS_annual_v21\\npy\\",
+            "LandScan_global": "H:\\Population\\LandScan_global\\npy_sum\\",
+            # "VIIRS_annual_v21": "H:\\Nighttime Light\\VIIRS_annual_v21\\npy\\",
             "ODIAC": "H:\\CO2\\ODIAC\\2022\\year\\"}
 
-# gC/m2/day换算t(year)：[(gC/m2/d * 10^6)tC/m2/d / (area km^2 * 10^6)m^2] * 365days = t (year)
+# [(gC/m2/d * 10^6)tC/m2/d / (area km^2 * 10^6)m^2] * 365days = t (year)
 transRaster = np.load("china_area.npy")
 np.seterr(divide='ignore', invalid='ignore')
 
@@ -29,7 +29,7 @@ def data_load(filename):
         data_key = np.array([np.load(f) for f in files])
         if key == "LandScan_global":
             data_key = data_key.astype(float)
-            data_key /= transRaster  # 人口比面积
+            data_key /= transRaster
         data[key] = data_key
 
     return data
